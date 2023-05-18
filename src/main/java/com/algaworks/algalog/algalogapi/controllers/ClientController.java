@@ -2,6 +2,7 @@ package com.algaworks.algalog.algalogapi.controllers;
 
 import com.algaworks.algalog.algalogapi.domain.model.Client;
 import com.algaworks.algalog.algalogapi.domain.repository.ClientRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,12 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client createClient(@RequestBody Client client) {
+    public Client createClient(@Valid @RequestBody Client client) {
         return clientRepository.save(client);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client client) {
+    public ResponseEntity<Client> updateClient(@PathVariable Long id,@Valid @RequestBody Client client) {
         if (!clientRepository.existsById(id))
             return ResponseEntity.notFound().build();
 
