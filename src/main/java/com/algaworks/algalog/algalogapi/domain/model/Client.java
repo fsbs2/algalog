@@ -1,10 +1,8 @@
 package com.algaworks.algalog.algalogapi.domain.model;
 
+import com.algaworks.algalog.algalogapi.domain.ValidationGroups;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +12,7 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Client {
+    @NotNull(groups = ValidationGroups.ClientId.class,message = "must not be null")
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

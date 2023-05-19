@@ -2,7 +2,7 @@ package com.algaworks.algalog.algalogapi.controllers;
 
 import com.algaworks.algalog.algalogapi.domain.model.Client;
 import com.algaworks.algalog.algalogapi.domain.repository.ClientRepository;
-import com.algaworks.algalog.algalogapi.domain.service.CrudOperationsClient;
+import com.algaworks.algalog.algalogapi.domain.service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping(value = "/clients")
 public class ClientController {
     @Autowired
-    private CrudOperationsClient clientService;
+    private ClientService clientService;
     @Autowired
     private ClientRepository clientRepository;
 
