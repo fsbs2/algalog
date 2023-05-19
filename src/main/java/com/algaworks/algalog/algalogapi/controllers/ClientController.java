@@ -2,6 +2,7 @@ package com.algaworks.algalog.algalogapi.controllers;
 
 import com.algaworks.algalog.algalogapi.domain.model.Client;
 import com.algaworks.algalog.algalogapi.domain.repository.ClientRepository;
+import com.algaworks.algalog.algalogapi.domain.service.CrudOperationsClient;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/clients")
 public class ClientController {
+    @Autowired
+    private CrudOperationsClient clientService;
     @Autowired
     private ClientRepository clientRepository;
 
@@ -31,16 +34,16 @@ public class ClientController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Client createClient(@Valid @RequestBody Client client) {
-        return clientRepository.save(client);
+        return clientService.save(client);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long id,@Valid @RequestBody Client client) {
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @Valid @RequestBody Client client) {
         if (!clientRepository.existsById(id))
             return ResponseEntity.notFound().build();
 
         client.setId(id);
-        client = clientRepository.save(client);
+        client = clientService.save(client);
         return ResponseEntity.ok(client);
     }
 
@@ -48,7 +51,7 @@ public class ClientController {
     public ResponseEntity<Client> deleteClient(@PathVariable Long id) {
         if (!clientRepository.existsById(id))
             return ResponseEntity.notFound().build();
-        clientRepository.deleteById(id);
+        clientService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
