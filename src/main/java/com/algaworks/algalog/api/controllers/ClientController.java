@@ -1,8 +1,8 @@
-package com.algaworks.algalog.algalogapi.controllers;
+package com.algaworks.algalog.api.controllers;
 
-import com.algaworks.algalog.algalogapi.domain.model.Client;
-import com.algaworks.algalog.algalogapi.domain.repository.ClientRepository;
-import com.algaworks.algalog.algalogapi.domain.service.ClientService;
+import com.algaworks.algalog.domain.model.Client;
+import com.algaworks.algalog.domain.repository.ClientRepository;
+import com.algaworks.algalog.domain.service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

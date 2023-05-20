@@ -1,4 +1,4 @@
-package com.algaworks.algalog.algalogapi;
+package com.algaworks.algalog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

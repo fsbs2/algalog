@@ -1,6 +1,6 @@
-package com.algaworks.algalog.algalogapi.domain.model;
+package com.algaworks.algalog.domain.model;
 
-import com.algaworks.algalog.algalogapi.domain.ValidationGroups;
+import com.algaworks.algalog.domain.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;

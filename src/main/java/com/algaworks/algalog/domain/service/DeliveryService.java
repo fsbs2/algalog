@@ -1,9 +1,9 @@
-package com.algaworks.algalog.algalogapi.domain.service;
+package com.algaworks.algalog.domain.service;
 
-import com.algaworks.algalog.algalogapi.domain.model.Client;
-import com.algaworks.algalog.algalogapi.domain.model.Delivery;
-import com.algaworks.algalog.algalogapi.domain.model.DeliveryStatus;
-import com.algaworks.algalog.algalogapi.domain.repository.DeliveryRepository;
+import com.algaworks.algalog.domain.model.Client;
+import com.algaworks.algalog.domain.model.Delivery;
+import com.algaworks.algalog.domain.model.DeliveryStatus;
+import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

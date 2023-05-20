@@ -1,6 +1,6 @@
-package com.algaworks.algalog.algalogapi.domain.model;
+package com.algaworks.algalog.domain.model;
 
-import com.algaworks.algalog.algalogapi.domain.ValidationGroups;
+import com.algaworks.algalog.domain.ValidationGroups;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
