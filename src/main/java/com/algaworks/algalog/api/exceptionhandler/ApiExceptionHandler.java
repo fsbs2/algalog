@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,28 +33,29 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 }
         );
 
-        Error error = new Error(status.value(), LocalDateTime.now(), errorTitle, fields);
+        Error error = new Error(status.value(), OffsetDateTime.now(), errorTitle, fields);
         return handleExceptionInternal(ex, error, headers, status, request);
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<Object> handleBusinessException(BusinessException ex,WebRequest request){
+    public ResponseEntity<Object> handleBusinessException(BusinessException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         var error = Error.builder()
                 .status(status.value())
-                .dateHour(LocalDateTime.now())
+                .dateHour(OffsetDateTime.now())
                 .title(ex.getMessage())
                 .build();
-        return handleExceptionInternal(ex,error,new HttpHeaders(),status,request);
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
+
     @ExceptionHandler(UnrecognizedPropertyException.class)
-    public ResponseEntity<Object> handleUnrecognizedPropertyException(UnrecognizedPropertyException ex,WebRequest request){
+    public ResponseEntity<Object> handleUnrecognizedPropertyException(UnrecognizedPropertyException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         var error = Error.builder()
                 .status(status.value())
-                .dateHour(LocalDateTime.now())
+                .dateHour(OffsetDateTime.now())
                 .title(ex.getMessage())
                 .build();
-        return handleExceptionInternal(ex,error,new HttpHeaders(),status,request);
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 }

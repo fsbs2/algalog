@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Service
 public class DeliveryService {
@@ -22,7 +22,7 @@ public class DeliveryService {
         Client client = clientService.searchClient(delivery.getClient().getId());
         delivery.setClient(client);
         delivery.setStatus(DeliveryStatus.PENDING);
-        delivery.setStartDelivery(LocalDateTime.now());
+        delivery.setStartDelivery(OffsetDateTime.now());
         return deliveryRepository.save(delivery);
     }
 

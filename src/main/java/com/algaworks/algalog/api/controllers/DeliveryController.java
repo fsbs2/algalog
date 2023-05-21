@@ -1,40 +1,42 @@
 package com.algaworks.algalog.api.controllers;
 
-import com.algaworks.algalog.domain.model.Delivery;
+import com.algaworks.algalog.api.dto.DeliveryDto;
+import com.algaworks.algalog.api.dto.request.DeliveryRequestModel;
+import com.algaworks.algalog.api.mapping.DeliveryMapper;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import com.algaworks.algalog.domain.service.DeliveryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/deliverys")
 public class DeliveryController {
-    @Autowired
     private DeliveryService deliveryService;
-
-    @Autowired
     private DeliveryRepository deliveryRepository;
+    private DeliveryMapper deliveryMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Delivery request(@Valid @RequestBody Delivery delivery){
-        return deliveryService.requestDelivery(delivery);
+    public DeliveryDto request(@Valid @RequestBody DeliveryRequestModel deliveryRequestModel) {
+        var deliveryCreated = deliveryService.requestDelivery(deliveryMapper.toDeliveryEntity(deliveryRequestModel));
+        return deliveryMapper.toDto(deliveryCreated);
     }
 
     @GetMapping
-    public List<Delivery> findAll(){
-        return deliveryRepository.findAll();
+    public List<DeliveryDto> findAll() {
+        return deliveryMapper.toCollectionDto(deliveryRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Delivery> findById(@PathVariable Long id){
+    public ResponseEntity<DeliveryDto> findById(@PathVariable Long id) {
         return deliveryRepository.findById(id)
-                .map(ResponseEntity::ok)
+                .map(delivery -> ResponseEntity.ok(deliveryMapper.toDto(delivery)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
