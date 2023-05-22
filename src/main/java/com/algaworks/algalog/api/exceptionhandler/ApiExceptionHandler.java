@@ -1,6 +1,7 @@
 package com.algaworks.algalog.api.exceptionhandler;
 
 import com.algaworks.algalog.domain.exception.BusinessException;
+import com.algaworks.algalog.domain.exception.EntityNotFoundException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Object> handleBusinessException(BusinessException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        var error = Error.builder()
+                .status(status.value())
+                .dateHour(OffsetDateTime.now())
+                .title(ex.getMessage())
+                .build();
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
         var error = Error.builder()
                 .status(status.value())
                 .dateHour(OffsetDateTime.now())

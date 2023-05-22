@@ -13,6 +13,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,6 +40,9 @@ public class Delivery {
     @NotNull(message = "must not be null")
     private BigDecimal tax;
 
+    @OneToMany(mappedBy = "delivery",cascade = CascadeType.ALL)
+    private List<Occurrence> occurrences = new ArrayList<>();
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
@@ -47,4 +52,14 @@ public class Delivery {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private OffsetDateTime endDelivery;
+
+    public Occurrence registryOccurence(String description) {
+        Occurrence occurrence = new Occurrence();
+        occurrence.setDescription(description);
+        occurrence.setRegistrationDate(OffsetDateTime.now());
+        occurrence.setDelivery(this);
+
+        this.getOccurrences().add(occurrence);
+        return occurrence;
+    }
 }
