@@ -5,6 +5,7 @@ import com.algaworks.algalog.api.dto.request.DeliveryRequestModel;
 import com.algaworks.algalog.api.mapping.DeliveryMapper;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import com.algaworks.algalog.domain.service.DeliveryService;
+import com.algaworks.algalog.domain.service.EndDeliveryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ public class DeliveryController {
     private DeliveryService deliveryService;
     private DeliveryRepository deliveryRepository;
     private DeliveryMapper deliveryMapper;
+
+    private EndDeliveryService endDeliveryService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -38,5 +41,11 @@ public class DeliveryController {
         return deliveryRepository.findById(id)
                 .map(delivery -> ResponseEntity.ok(deliveryMapper.toDto(delivery)))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/finish")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void finalizeDelivery(@PathVariable Long id) {
+        endDeliveryService.finish(id);
     }
 }

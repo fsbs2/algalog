@@ -1,6 +1,7 @@
 package com.algaworks.algalog.domain.model;
 
 import com.algaworks.algalog.domain.ValidationGroups;
+import com.algaworks.algalog.domain.exception.BusinessException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -40,7 +41,7 @@ public class Delivery {
     @NotNull(message = "must not be null")
     private BigDecimal tax;
 
-    @OneToMany(mappedBy = "delivery",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL)
     private List<Occurrence> occurrences = new ArrayList<>();
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -61,5 +62,16 @@ public class Delivery {
 
         this.getOccurrences().add(occurrence);
         return occurrence;
+    }
+
+    public void finalizeDelivery() {
+        if (DeliveryStatus.CANCEL.equals(getStatus())) {
+            throw new BusinessException("Delivery was canceled");
+        }
+        if (DeliveryStatus.FINISHED.equals(getStatus())) {
+            throw new BusinessException("Delivery already finished");
+        }
+        setStatus(DeliveryStatus.FINISHED);
+        setEndDelivery(OffsetDateTime.now());
     }
 }
