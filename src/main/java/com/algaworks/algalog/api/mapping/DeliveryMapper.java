@@ -1,5 +1,6 @@
 package com.algaworks.algalog.api.mapping;
 
+import com.algaworks.algalog.api.dto.CompleteDeliveryDto;
 import com.algaworks.algalog.api.dto.DeliveryDto;
 import com.algaworks.algalog.api.dto.request.DeliveryRequestModel;
 import com.algaworks.algalog.domain.model.Delivery;
@@ -27,5 +28,9 @@ public class DeliveryMapper {
 
     public Delivery toDeliveryEntity(DeliveryRequestModel requestModel) {
         return modelMapper.map(requestModel, Delivery.class);
+    }
+
+    public CompleteDeliveryDto toCompleteDto(Delivery delivery) {
+        return modelMapper.map(delivery, CompleteDeliveryDto.class);
     }
 }

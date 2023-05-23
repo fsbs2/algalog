@@ -1,11 +1,12 @@
 package com.algaworks.algalog.api.controllers;
 
+import com.algaworks.algalog.api.dto.CompleteDeliveryDto;
 import com.algaworks.algalog.api.dto.DeliveryDto;
 import com.algaworks.algalog.api.dto.request.DeliveryRequestModel;
+import com.algaworks.algalog.api.dto.request.OccurenceInput;
 import com.algaworks.algalog.api.mapping.DeliveryMapper;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import com.algaworks.algalog.domain.service.DeliveryService;
-import com.algaworks.algalog.domain.service.EndDeliveryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,6 @@ public class DeliveryController {
     private DeliveryRepository deliveryRepository;
     private DeliveryMapper deliveryMapper;
 
-    private EndDeliveryService endDeliveryService;
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DeliveryDto request(@Valid @RequestBody DeliveryRequestModel deliveryRequestModel) {
@@ -37,15 +36,20 @@ public class DeliveryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DeliveryDto> findById(@PathVariable Long id) {
+    public ResponseEntity<CompleteDeliveryDto> findById(@PathVariable Long id) {
         return deliveryRepository.findById(id)
-                .map(delivery -> ResponseEntity.ok(deliveryMapper.toDto(delivery)))
+                .map(delivery -> ResponseEntity.ok(deliveryMapper.toCompleteDto(delivery)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}/finish")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void finalizeDelivery(@PathVariable Long id) {
-        endDeliveryService.finish(id);
+        deliveryService.finish(id);
+    }
+    @PutMapping("/{id}/cancel")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancelDelivery(@PathVariable Long id, @RequestBody @Valid OccurenceInput occurenceInput) {
+        deliveryService.cancel(id,occurenceInput);
     }
 }

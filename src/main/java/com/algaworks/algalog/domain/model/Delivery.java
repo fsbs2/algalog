@@ -74,4 +74,8 @@ public class Delivery {
         setStatus(DeliveryStatus.FINISHED);
         setEndDelivery(OffsetDateTime.now());
     }
+
+    public void cancelDelivery() {
+        setStatus(DeliveryStatus.CANCEL);
+    }
 }
